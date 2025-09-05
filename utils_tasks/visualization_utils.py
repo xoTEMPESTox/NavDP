@@ -16,6 +16,8 @@ class VisualizationManager:
     def build_occupancy_grid(self, depth_map, intrinsic, camera_roll=0):
         try:
             """Convert depth image to occupancy grid in BEV"""
+            if len(depth_map.shape) == 3:
+                depth_map = depth_map[:,:,0]
             height, width = depth_map.shape
             uu, vv = np.meshgrid(np.arange(width), np.arange(height))
             z = depth_map

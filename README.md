@@ -40,9 +40,6 @@
 # 🔥 News
 - We release the [InternVLA-N1](https://internrobotics.github.io/internvla-n1.github.io/) - the first end-to-end navigation dual-system.
 - We release the [InternNav](https://github.com/InternRobotics/InternNav) - an all-in-one open-source toolbox for embodied naivgation.
-- We open source a comprehensive navigation system-1 benchmark, check [here](#-internvla-n1-system-1-benchmark) for more details!
-- We release a high-quality Vision-Language-Navigation (VLN) dataset - [InternData-N1](https://huggingface.co/datasets/InternRobotics/InternData-N1)!
-- We release a new NavDP checkpoint - [InternVLA-N1-S1](#-internvla-n1-system-1-model).
 
 # 🏡 Introduction
 Navigation Diffusion Policy (NavDP) is an end-to-end mapless navigation model 

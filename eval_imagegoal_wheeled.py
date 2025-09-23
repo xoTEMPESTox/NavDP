@@ -150,7 +150,7 @@ env_config = DingoImageNavCfg()
 env_config.scene = scene_config
 env_config.events.reset_pose.params = {"init_point_path":init_path, 
                                        'height_offset':0.1,
-                                       'camera_offset':0.0,
+                                       'camera_offset':0.25,
                                        'robot_visible': False,
                                        'light_enabled': False}
 env = ManagerBasedRLEnv(env_config)

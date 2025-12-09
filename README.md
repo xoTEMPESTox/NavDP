@@ -3,7 +3,7 @@
   <p align="center">
     <!--   	<strong>CVPR 2024</strong><br> -->
     <a href='https://wzcai99.github.io/' target='_blank'>Wenzhe Cai</a>&emsp;
-	<a href='https://github.com/steinate' target='_blank'>Jiaqi Peng</a>&emsp;
+	<a href='https://steinate.github.io/' target='_blank'>Jiaqi Peng</a>&emsp;
     <a href='https://yuqiang-yang.github.io/' target='_blank'>Yuqiang Yang</a>&emsp;
     <a href='https://github.com/command-z-z' target='_blank'>Yujian Zhang</a>&emsp;
     <a href='https://scholar.google.com.hk/citations?user=Wx8ChLcAAAAJ&hl=zh-CN' target='_blank'>Meng Wei</a>&emsp; <br>

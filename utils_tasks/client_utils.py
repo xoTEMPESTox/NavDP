@@ -73,7 +73,11 @@ def pointgoal_step(point_goals,rgb_images,depth_images,port=8888):
     trajectory = json.loads(response.text)['trajectory']
     all_trajectory = json.loads(response.text)['all_trajectory']
     all_value = json.loads(response.text)['all_values']
-    return np.array(trajectory),np.array(all_trajectory),np.array(all_value)
+    if 'sub_pointgoal_pd' in json.loads(response.text):
+        sub_pointgoal_pd = json.loads(response.text)['sub_pointgoal_pd']
+        return np.array(trajectory),np.array(all_trajectory),np.array(all_value),sub_pointgoal_pd
+    else:
+        return np.array(trajectory),np.array(all_trajectory),np.array(all_value)
 
 def imagegoal_step(image_goals,rgb_images,depth_images,port=8888):
     concat_images = np.concatenate([img for img in rgb_images],axis=0)

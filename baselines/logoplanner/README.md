@@ -309,7 +309,7 @@ You should see on your laptop something like this: `[INFO] Connected to remote r
 ### 6️⃣ Deployment
 Mount the RGBD camera to LeKiwi and adjust the SO101 arm not to obstruct the camera:
 <div align=center>
-    <img width=500 src=./assets/camera_mount.jpg>
+    <img width=500 src=./assets/camera_mount.png>
 </div>
 
 🚨 Before you start our algorithm, you can let LeKiwi to follow some simple trajectories like sin or 's' curve to make sure the MPC tracking work.

@@ -59,6 +59,13 @@ Open a new terminal and run the following command in the home path `{NavDP_HOME}
 conda activate isaaclab
 python eval_startgoal_wheeled.py --port {PORT} --scene_dir {ASSET_SCENE} --scene_index {INDEX} --scene_scale {SCALE}
 ```
+
+
+<div style="text-align: center;">
+    <img src="./assets/simulation.gif" alt="Teaser" width=800>
+</div>
+
+
 ### 😉 Example:
 
 ```bash
@@ -72,6 +79,11 @@ conda activate isaaclab && python eval_startgoal_wheeled.py --port 19999 --scene
 
 
 # 🤖 Hands on Real-robot
+<div align=center>
+    <img src=./assets/realworld.gif width=800>
+</div>
+
+
 The [Lekiwi](https://github.com/SIGRobotics-UIUC/LeKiwi) is a fully open-source robotic car project launched by [SIGRobotics-UIUC](https://github.com/SIGRobotics-UIUC). It includes the detailed 3D printing files and operation guides, designed to be compatible with the [LeRobot](https://github.com/huggingface/lerobot/tree/main) imitation learning framework. It supports the SO101 robotic arm to enable a complete imitation learning pipeline,
 <div align=center>
     <img width=400 src=https://files.seeedstudio.com/wiki/robotics/projects/lerobot/lekiwi/lekiwi_cad_v1.png>
@@ -110,10 +122,11 @@ SIGRobotics provide ready-to-print STL files for the 3D-printed parts below. The
 
 ### 2️⃣ Assembly
 Refer to the [Assembly](https://github.com/SIGRobotics-UIUC/LeKiwi/blob/main/Assembly.md) section for more details. 
-<img src="![media/assembly_imgs/IMG_1925.jpg](https://github.com/SIGRobotics-UIUC/LeKiwi/blob/main/media/assembly_imgs/IMG_1925.jpg)" width="400" /> <img src="![media/assembly_imgs/IMG_1928.jpg](https://github.com/SIGRobotics-UIUC/LeKiwi/blob/main/media/assembly_imgs/IMG_1928.jpg)" width="400" />
 
-We also highly recommend the following detailed tutorial [seeedstudio](https://wiki.seeedstudio.com/lerobot_lekiwi/): 
-<iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=115614614029372&bvid=BV1TLUhBWE2D&cid=34273037419&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position: absolute; width: 1000px; height: 500px; left: 0; top: 0;"></iframe>
+We also highly recommend the following detailed tutorial [seeedstudio](https://wiki.seeedstudio.com/lerobot_lekiwi/) and [accompanying videos](https://www.bilibili.com/video/BV1TLUhBWE2D?p=1): 
+
+[![How to Assemble & Set Up LeKiwi (Mobile robot Tutorial)
+](https://img.youtube.com/vi/cKWAjEV4aSg/0.jpg)](https://www.youtube.com/watch?v=cKWAjEV4aSg)
 
 ### 3️⃣ Install
 #### Install LeRobot on Raspberry Pi
@@ -293,3 +306,30 @@ python examples/lekiwi/teleoperate.py
 
 You should see on your laptop something like this: `[INFO] Connected to remote robot at tcp://172.17.133.91:5555 and video stream at tcp://172.17.133.91:5556`. Now you can move the leader arm and use the keyboard (w,a,s,d) to drive forward, left, backwards, right. And use (z,x) to turn left or turn right. You can use (r,f) to increase and decrease the speed of the mobile robot. 
 
+### 6️⃣ Deployment
+Mount the RGBD camera to LeKiwi and adjust the SO101 arm not to obstruct the camera:
+<div align=center>
+    <img width=500 src=./assets/camera_mount.jpg>
+</div>
+
+🚨 Before you start our algorithm, you can let LeKiwi to follow some simple trajectories like sin or 's' curve to make sure the MPC tracking work.
+
+### 7️⃣ Deployment
+
+To deploy logoplanner on LeKiwi, you can run this script to start server on the your laptop or PC:
+```bash
+python logoplanner_realworld_server.py --port 19999 --checkpoint ${CKPT_PATH}
+```
+
+Make sure that the correct ip for the Pi is set in the configuration file. To check the server address, run on your laptop or PC:
+```bash
+hostname -I
+```
+
+Then on RaspberyPi, cp the file `lekiwi_logoplanner_host.py` to you work directory and run the following commands to start client:
+```bash
+conda activate lerobot
+python lekiwi_logoplanner_host.py --server-url http://192.168.1.100:8888 --goal-x 10 --goal-y -2
+```
+
+You will see the robot move to the target (10, -2). Without any external odometry module, the robot still will know where it is and gradually move to the target then stop.

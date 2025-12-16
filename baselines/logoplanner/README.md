@@ -291,6 +291,11 @@ python -m lerobot.robots.lekiwi.lekiwi_host --robot.id=my_awesome_kiwi
 ```
 
 On your laptop (also with the `lerobot` environment active), run the teleoperation example after setting the correct `remote_ip` and `port` in `examples/lekiwi/teleoperate.py`:
+
+<div align="center">
+    <img width="800" src="https://files.seeedstudio.com/wiki/robotics/projects/lerobot/lekiwi/teleoperate.png" alt="Teleoperation Interface">
+</div>
+
 ```bash
 python examples/lekiwi/teleoperate.py
 ```
@@ -301,9 +306,6 @@ You should see a connection message on your laptop. You can then:
 - Use **Z, X** to turn left/right.
 - Use **R, F** to increase/decrease the robot speed.
 
-<div align="center">
-    <img width="800" src="https://files.seeedstudio.com/wiki/robotics/projects/lerobot/lekiwi/teleoperate.png" alt="Teleoperation Interface">
-</div>
 
 ### 6️⃣ Deployment Preparation
 

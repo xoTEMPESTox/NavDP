@@ -42,13 +42,13 @@ We use the same environment with NavDP. Please follow the [instructions](https:/
 ```bash
 conda activavte navdp
 ```
-Then add install the required packages of viusal geometry model [Pi3](https://github.com/yyfz/Pi3)
+Then install the required packages of viusal geometry model [Pi3](https://github.com/yyfz/Pi3)
 ```bash
 cd baselines/logoplanner
 pip install plyfile huggingface_hub safetensors
 ```
 ### 🤔 Run LoGoPlanner Model
-In the path of `baselines/logoplanner`, run the following command
+In the path `baselines/logoplanner`, run the following command
 ```bash
 python logoplanner_server.py --port ${YOUR_PORT} --checkpoint ${SAVE_PTH_PATH}
 ```

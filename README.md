@@ -38,7 +38,8 @@
 </div>
 
 # 🔥 News
-- We release the [LoGoPlanner](https://steinate.github.io/logoplanner.github.io/) - a localization-grounded, end-to-end navigation framework.
+- We have open-sourced the entire [deploy process](baselines/logoplanner/README.md) based on LeKiwi, from hardware setup to algorithm deployment. 😺 Welcome to use it!
+- We release the [LoGoPlanner](https://steinate.github.io/logoplanner.github.io/) - a localization-grounded, end-to-end navigation framework. 
 - We release the [InternVLA-N1](https://internrobotics.github.io/internvla-n1.github.io/) - the first end-to-end navigation dual-system.
 - We release the [InternNav](https://github.com/InternRobotics/InternNav) - an all-in-one open-source toolbox for embodied naivgation.
 

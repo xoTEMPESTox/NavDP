@@ -61,7 +61,7 @@ python eval_startgoal_wheeled.py --port {PORT} --scene_dir {ASSET_SCENE} --scene
 ```
 
 
-<div style="text-align: center;">
+<div align=center>
     <img src="./assets/simulation.gif" alt="Teaser" width=800>
 </div>
 

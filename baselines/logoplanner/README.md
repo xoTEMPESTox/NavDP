@@ -16,8 +16,8 @@
 <div align="center">
 
 [![Project](https://img.shields.io/badge/Project-%239c403d?style=flat&logoColor=%23FA7F6F)](https://steinate.github.io/logoplanner.github.io/)
-[![arXiv](https://img.shields.io/badge/Arxiv-%233b6291?style=flat&logoColor=%23FA7F6F)](https://arxiv.org/abs/)
-[![Video](https://img.shields.io/badge/Video-%23c97937?style=flat&logoColor=%23FA7F6F)](https://www.youtube.com/)
+[![arXiv](https://img.shields.io/badge/Arxiv-%233b6291?style=flat&logoColor=%23FA7F6F)](https://arxiv.org/abs/2512.19629/)
+[![Video](https://img.shields.io/badge/Video-%23c97937?style=flat&logoColor=%23FA7F6F)](https://www.youtube.com/watch?v=IlU7pyr9hHY/)
 [![Benchmark](https://img.shields.io/badge/Benchmark-8A2BE2?style=flat)](https://github.com/InternRobotics/NavDP)
 [![Dataset](https://img.shields.io/badge/Dataset-548B54?style=flat)](https://huggingface.co/datasets/InternRobotics/InternData-N1/)
 [![GitHub star chart](https://img.shields.io/github/stars/InternRobotics/NavDP?style=square)](https://github.com/InternRobotics/NavDP)

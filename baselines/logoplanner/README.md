@@ -16,8 +16,8 @@
 <div align="center">
 
 [![Project](https://img.shields.io/badge/Project-%239c403d?style=flat&logoColor=%23FA7F6F)](https://steinate.github.io/logoplanner.github.io/)
-[![arXiv](https://img.shields.io/badge/Arxiv-%233b6291?style=flat&logoColor=%23FA7F6F)](https://arxiv.org/abs/)
-[![Video](https://img.shields.io/badge/Video-%23c97937?style=flat&logoColor=%23FA7F6F)](https://www.youtube.com/)
+[![arXiv](https://img.shields.io/badge/Arxiv-%233b6291?style=flat&logoColor=%23FA7F6F)](https://arxiv.org/abs/2512.19629/)
+[![Video](https://img.shields.io/badge/Video-%23c97937?style=flat&logoColor=%23FA7F6F)](https://www.youtube.com/watch?v=IlU7pyr9hHY/)
 [![Benchmark](https://img.shields.io/badge/Benchmark-8A2BE2?style=flat)](https://github.com/InternRobotics/NavDP)
 [![Dataset](https://img.shields.io/badge/Dataset-548B54?style=flat)](https://huggingface.co/datasets/InternRobotics/InternData-N1/)
 [![GitHub star chart](https://img.shields.io/github/stars/InternRobotics/NavDP?style=square)](https://github.com/InternRobotics/NavDP)
@@ -91,7 +91,7 @@ conda activate isaaclab && python eval_startgoal_wheeled.py --port 19999 --scene
 # 🤖 Real-Robot Deployment
 
 <div align="center">
-    <img src="./assets/realworld.gif" alt="Real World Demo" width="800">
+    <img src="./assets/realworld_c.gif" alt="Real World Demo" width="800">
 </div>
 
 [Lekiwi](https://github.com/SIGRobotics-UIUC/LeKiwi) is a fully open-source robotic car project developed by [SIGRobotics-UIUC](https://github.com/SIGRobotics-UIUC). It includes detailed 3D printing files and operation guides, designed to be compatible with the [LeRobot](https://github.com/huggingface/lerobot/tree/main) imitation learning framework. It also supports the SO101 robotic arm for a complete imitation learning pipeline.

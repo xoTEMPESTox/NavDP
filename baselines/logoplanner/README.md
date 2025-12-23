@@ -91,7 +91,7 @@ conda activate isaaclab && python eval_startgoal_wheeled.py --port 19999 --scene
 # 🤖 Real-Robot Deployment
 
 <div align="center">
-    <img src="./assets/realworld_c.gif" alt="Real World Demo" width="800">
+    <img src="./assets/realworld.gif" alt="Real World Demo" width="800">
 </div>
 
 [Lekiwi](https://github.com/SIGRobotics-UIUC/LeKiwi) is a fully open-source robotic car project developed by [SIGRobotics-UIUC](https://github.com/SIGRobotics-UIUC). It includes detailed 3D printing files and operation guides, designed to be compatible with the [LeRobot](https://github.com/huggingface/lerobot/tree/main) imitation learning framework. It also supports the SO101 robotic arm for a complete imitation learning pipeline.

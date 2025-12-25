@@ -224,7 +224,7 @@ We collect the checkpoints for other navigation system-1 method from the corresp
 | ViNT | [Arxiv](https://arxiv.org/abs/2306.14846)   | [GitHub](https://github.com/robodhruv/visualnav-transformer) | [Checkpoint](https://drive.google.com/drive/folders/1a9yWR2iooXFAqjQHetz263--4_2FFggg?usp=sharing)| ImageNav, NoGoal |
 | NoMad | [Arxiv](https://arxiv.org/abs/2310.07896)   | [GitHub](https://github.com/robodhruv/visualnav-transformer) | [Checkpoint](https://drive.google.com/drive/folders/1a9yWR2iooXFAqjQHetz263--4_2FFggg?usp=sharing) | ImageNav, NoGoal |
 | NavDP | [Arxiv](https://arxiv.org/abs/2505.08712)  | [GitHub](https://github.com/OpenRobotLab/NavDP) | [Checkpoint](https://docs.google.com/forms/d/e/1FAIpQLSdl3RvajO5AohwWZL5C0yM-gkSqrNaLGp1OzN9oF24oNLfikw/viewform?usp=dialog) | PointNav, ImageNav, NoGoal |
-| LoGoPlanner | [Arxiv](https://arxiv.org/)  | [GitHub](https://github.com/OpenRobotLab/NavDP) | [Checkpoint](https://drive.google.com/file/d/1afixHJdvy4JqTQMs0h6Mq7UpDCYyX5co/view?usp=drive_link) | PointNav |
+| LoGoPlanner | [Arxiv](https://arxiv.org/)  | [GitHub](https://github.com/OpenRobotLab/NavDP) | [Checkpoint](https://huggingface.co/InternRobotics/LoGoPlanner) | PointNav |
 
 
 #### DD-PPO

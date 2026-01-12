@@ -246,6 +246,8 @@ No addition dependencies are required if you have configured the environment for
 #### ViPlanner
 For Viplanner, you need to install the mmcv and mmdet for Mask2Former. We recommand to create a new environment with torch 2.0.1 as backend.
 ```bash
+pip install imageio==2.37.0 imageio-ffmpeg==0.6.0
+pip install Flask==3.1.2
 pip install torch==2.0.1+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 pip install torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 pip install mmcv==2.0.0 -f https://download.openmmlab.com/mmcv/dist/cu118/torch2.0/index.html

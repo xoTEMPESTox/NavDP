@@ -1,4 +1,6 @@
+IsaacLab/
 *.ply
+
 __pycache__
 *.pth
 *.ckpt
@@ -8,3 +10,6 @@ __pycache__
 assets/scenes/Materials/*
 assets/scenes/SkyTexture/*
 assets/scenes/embodiedscan/*
+assets/scenes/cluttered_easy/*
+!evaluation_outputs/
+!evaluation_outputs/**

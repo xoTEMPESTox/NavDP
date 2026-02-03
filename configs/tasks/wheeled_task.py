@@ -50,7 +50,12 @@ def oracle_imu_pose_data(env: ManagerBasedEnv,
     goal_pos = goal_primview.get_world_poses()[0]
     rel_pos = torch.zeros((goal_pos.shape[0], 3))
     for i in range(rel_pos.shape[0]):
-        rel_pos[i] = torch.matmul(torch.inverse(robot_rot[i]),(goal_pos[i] - robot_pos[i]).T)
+        # Use pseudo-inverse to handle singular rotation matrices (e.g., when robot flips)
+        try:
+            rot_inv = torch.linalg.pinv(robot_rot[i])
+        except:
+            rot_inv = torch.eye(3, device=robot_rot.device)
+        rel_pos[i] = torch.matmul(rot_inv, (goal_pos[i] - robot_pos[i]))
     return rel_pos
 
 def pixel_projection_data(env: ManagerBasedEnv,
@@ -549,6 +554,10 @@ class PointNavTerminationsCfg:
                       params={"robot_asset_cfg": SceneEntityCfg("robot"), 
                               "window_size": 30, 
                               "threshold": 0.1})
+    base_contact = DoneTerm(
+        func=mdp.illegal_contact,
+        params={"sensor_cfg": SceneEntityCfg("contact_sensor", body_names=DINGO_BASE_LINK), "threshold": DINGO_THRESHOLD},
+    )
     
 @configclass
 class ImageNavTerminationsCfg:

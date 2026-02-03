@@ -1,6 +1,7 @@
 # NavDP Research Sandbox: Omni-directional Robotics & Expansion
 
 This repository is an academic research fork of the [official NavDP implementation](https://github.com/InternRobotics/NavDP). The purpose of this fork is to deepen the understanding of Diffusion Policies in robotics and extend the framework's capabilities through custom hardware integration and enhanced visualization tools.
+<img width="1244" height="449" alt="image" src="https://github.com/user-attachments/assets/584fb1eb-ba4a-4226-81b0-0e6a1c53354e" />
 
 ## 🚀 Key Research Contributions
 

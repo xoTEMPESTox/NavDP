@@ -9,7 +9,9 @@ In this sandbox, I have implemented several critical enhancements to the core Na
 ### 1. LeKiwi Robot Integration (3-Wheeled Omni-directional)
 Successfully integrated the **LeKiwi** robot model, transitioning from the default differential-drive Dingo to a more complex **omni-directional 3-wheeled base**. 
 
-**Detailed technical breakdown available on LinkedIn:** [The Ghost, The Anchor, and The Exploding Robot: A LeKiwi Integration Log](https://www.linkedin.com/posts/priyanshu123sah_physicalai-robotics-deeplearning-activity-7421533400718770176-hZhs?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEDrLh4BEAfLe_9iKxGIAEOI88fdcEu5t4s)
+**Technical Resources:**
+- **LinkedIn Article:** [The Ghost, The Anchor, and The Exploding Robot: A LeKiwi Integration Log](https://www.linkedin.com/posts/priyanshu123sah_physicalai-robotics-deeplearning-activity-7421533400718770176-hZhs?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEDrLh4BEAfLe_9iKxGIAEOI88fdcEu5t4s)
+- **Repo Integration Log:** [LEKIWI_INTEGRATION_LOG.md](development_logs/LEKIWI_INTEGRATION_LOG.md) — *A deep dive into why off-the-shelf USD models are often "simulation-broken" and how to fix them for navigation.*
 
 The integration required significant engineering efforts in:
 - **USD Preparation:** Programmatically fixing articulation roots and programmatically injecting collision geometries.

@@ -7,7 +7,11 @@ This repository is an academic research fork of the [official NavDP implementati
 In this sandbox, I have implemented several critical enhancements to the core NavDP framework:
 
 ### 1. LeKiwi Robot Integration (3-Wheeled Omni-directional)
-Successfully integrated the **LeKiwi** robot model, transitioning from the default differential-drive Dingo to a more complex **omni-directional 3-wheeled base**. This required significant engineering efforts in:
+Successfully integrated the **LeKiwi** robot model, transitioning from the default differential-drive Dingo to a more complex **omni-directional 3-wheeled base**. 
+
+**Detailed technical breakdown available on LinkedIn:** [The Ghost, The Anchor, and The Exploding Robot: A LeKiwi Integration Log](https://www.linkedin.com/posts/priyanshu123sah_physicalai-robotics-deeplearning-activity-7421533400718770176-hZhs?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEDrLh4BEAfLe_9iKxGIAEOI88fdcEu5t4s)
+
+The integration required significant engineering efforts in:
 - **USD Preparation:** Programmatically fixing articulation roots and programmatically injecting collision geometries.
 - **Physics Tuning:** Solving simulation "explosions" (NaNs) by optimizing actuator gains and contact offsets.
 - **Friction Modeling:** Implementing a hybrid collision model (Cylinders for traction wheels, frictionless Sphere for the caster) to ensure realistic motion and turn-in-place capabilities.

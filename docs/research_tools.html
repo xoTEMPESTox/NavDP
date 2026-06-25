@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research Tools — NavDP Research Sandbox</title>
+  <meta name="description" content="Documentation for the NavDP research tooling suite: USD inspection, articulation fixing, collision injection, physics validation, and joint inspection scripts in research_tools/." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1.2" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">⚙️</span><span class="logo-text">NavDP <span class="logo-accent">Sandbox</span></span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="overview.html" class="nav-link">Overview</a></li>
+        <li><a href="lekiwi.html" class="nav-link">LeKiwi</a></li>
+        <li><a href="architecture.html" class="nav-link">Architecture</a></li>
+        <li><a href="installation.html" class="nav-link">Installation</a></li>
+        <li><a href="research_tools.html" class="nav-link active">Tools</a></li>
+        <li><a href="https://github.com/xoTEMPESTox/NavDP" target="_blank" class="nav-cta"><svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.58 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-breadcrumb"><a href="index.html">Home</a> <span>›</span> Research Tools</div>
+      <div class="section-badge" style="margin-bottom:1rem">Tooling Suite</div>
+      <h1>Research Tools</h1>
+      <p>A suite of automation scripts for USD inspection, articulation fixing, collision injection, and physics validation — designed to dramatically reduce robot on-boarding time.</p>
+    </div>
+  </div>
+
+  <section class="content-section">
+    <div class="content-container">
+      <h2>Overview</h2>
+      <p>
+        The <code>research_tools/</code> directory contains standalone Python scripts that automate the most error-prone parts of integrating a new robot into Isaac Lab. 
+        Each script is independent and can be run headlessly via the <code>isaacsim</code> launcher. They were developed during the <a href="lekiwi.html">LeKiwi integration</a> 
+        and are general enough to apply to any new robot USD.
+      </p>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">🚀</span>
+        <div class="callout-content">
+          <strong>Recommended on-boarding order:</strong>
+          <code>inspect_usd.py</code> → <code>check_usd.py</code> → <code>fix_lekiwi_usd.py</code> → <code>find_collisions.py</code> → <code>add_wheel_collisions.py</code> → <code>check_wheel_physics.py</code>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2>Tool Reference</h2>
+
+      <div class="tool-cards">
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span style="font-size:1.4rem">🔍</span>
+            <span class="tool-name">inspect_usd.py</span>
+          </div>
+          <p class="tool-desc">
+            Traverses the entire USD prim tree and prints a human-readable summary of all prims, their types, and active APIs. Specifically identifies <code>ArticulationRootAPI</code>, <code>RigidBodyAPI</code>, <code>CollisionAPI</code>, and <code>JointAPI</code> applications. Essential first step before any modification.
+          </p>
+          <pre style="margin-top:0.75rem"><code>python research_tools/inspect_usd.py \
+  --usd /path/to/robot.usd</code></pre>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span style="font-size:1.4rem">✅</span>
+            <span class="tool-name">check_usd.py</span>
+          </div>
+          <p class="tool-desc">
+            Performs a validation pass on a USD file: verifies that exactly one prim has <code>ArticulationRootAPI</code>, that no <code>FixedJoint</code> connects to the world frame, and that the default prim is set. Reports PASS/FAIL for each check with detailed diagnostic output.
+          </p>
+          <pre style="margin-top:0.75rem"><code>python research_tools/check_usd.py \
+  --usd /path/to/robot.usd</code></pre>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span style="font-size:1.4rem">🔧</span>
+            <span class="tool-name">fix_lekiwi_usd.py</span>
+          </div>
+          <p class="tool-desc">
+            The primary articulation repair script. Opens a USD as a sublayer, deactivates the <code>root_joint</code> prim that pins the robot to the world, and applies <code>UsdPhysics.ArticulationRootAPI</code> + <code>PhysxSchema.PhysxArticulationAPI</code> to the chassis body. Writes output as a new USD file (non-destructive).
+          </p>
+          <pre style="margin-top:0.75rem"><code>python research_tools/fix_lekiwi_usd.py
+# Input:  assets/robots/lekiwi/lekiwi.usd
+# Output: assets/robots/lekiwi/lekiwi_floating.usd</code></pre>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span style="font-size:1.4rem">👻</span>
+            <span class="tool-name">find_collisions.py</span>
+          </div>
+          <p class="tool-desc">
+            Scans a USD for all prims with <code>UsdPhysics.CollisionAPI</code> applied. Prints a count and list of all collision prim paths. If the count is zero, the robot is a "ghost" — it has no physics surface and will fall through the floor or not generate traction.
+          </p>
+          <pre style="margin-top:0.75rem"><code>python research_tools/find_collisions.py \
+  --usd /path/to/robot.usd
+# Output: "Found 0 collision prims" → ghost robot!</code></pre>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span style="font-size:1.4rem">💥</span>
+            <span class="tool-name">add_wheel_collisions.py</span>
+          </div>
+          <p class="tool-desc">
+            Procedurally injects collision geometry into a robot USD. For each configured wheel body path, creates a child collision prim:
+            <strong>Cylinder</strong> for drive wheels (traction), <strong>Sphere</strong> for passive caster wheels (free rolling).
+            Also disables self-collisions at the articulation level to prevent NaN explosions.
+          </p>
+          <pre style="margin-top:0.75rem"><code>python research_tools/add_wheel_collisions.py
+# Input:  lekiwi_floating.usd
+# Output: lekiwi_final.usd</code></pre>
+          <p class="tool-desc" style="margin-top:0.75rem">Key configuration at the top of the file:</p>
+          <pre><code>WHEEL_RADIUS = 0.0325 * 0.95  # 5% smaller prevents ground interpenetration
+WHEEL_WIDTH  = 0.03            # cylinder height in meters
+WHEEL_BODIES = ["/LeKiwi/wheel_body_1", ...]
+# is_caster = (i == 2)  → 3rd wheel gets Sphere shape</code></pre>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span style="font-size:1.4rem">⚙️</span>
+            <span class="tool-name">add_collisions.py</span>
+          </div>
+          <p class="tool-desc">
+            More general collision injection script (precursor to <code>add_wheel_collisions.py</code>). Supports adding Box, Sphere, and Cylinder shapes to arbitrary prim paths, with configurable dimensions and material bindings. Useful for adding body colliders in addition to wheel colliders.
+          </p>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span style="font-size:1.4rem">🔬</span>
+            <span class="tool-name">check_wheel_physics.py</span>
+          </div>
+          <p class="tool-desc">
+            Physics validation script that loads a USD in IsaacSim, spawns the robot, applies motor commands at a fixed velocity, and reports: wheel joint velocities, base translation velocity, contact forces, and any NaN detection. Designed to be run after <code>add_wheel_collisions.py</code> to confirm that the robot actually moves.
+          </p>
+          <pre style="margin-top:0.75rem"><code>python research_tools/check_wheel_physics.py
+# Runs 500 simulation steps, prints:
+# - Joint vel: [14.2, 16.1, 0.0] rad/s
+# - Base vel:  [0.0, 0.0, 0.0] ← still the traction problem!</code></pre>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span style="font-size:1.4rem">🦴</span>
+            <span class="tool-name">inspect_joints.py</span>
+          </div>
+          <p class="tool-desc">
+            Prints a complete list of all joints in the USD articulation tree with their types (<code>RevoluteJoint</code>, <code>PrismaticJoint</code>, <code>FixedJoint</code>), parent/child body paths, and current axis definitions. Critical for identifying the <code>root_joint</code> that needed to be deactivated.
+          </p>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span style="font-size:1.4rem">🧮</span>
+            <span class="tool-name">simple_check.py</span>
+          </div>
+          <p class="tool-desc">
+            Minimal sanity check script. Opens a USD without launching the full simulation app, prints the prim tree structure, and checks for the most common integration errors. Useful for quick iteration without the 30-second Isaac Sim startup cost.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="divider"></div>
+
+      <h2>Recommended Workflow</h2>
+      <p>When integrating a new robot USD, follow this systematic sequence:</p>
+
+      <div class="quickstart-steps" style="margin: 1.5rem 0 2rem">
+        <div class="qs-step">
+          <div class="qs-num">1</div>
+          <div class="qs-content">
+            <h3>Inspect the raw USD</h3>
+            <pre class="code-block"><code>python research_tools/simple_check.py --usd /path/to/robot.usd
+python research_tools/inspect_joints.py --usd /path/to/robot.usd</code></pre>
+            <p style="color:var(--text-secondary); font-size:0.875rem; margin-top:0.5rem">Look for: any <code>FixedJoint</code> connecting to world, multiple <code>ArticulationRootAPI</code> prims, missing default prim</p>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">2</div>
+          <div class="qs-content">
+            <h3>Fix the articulation root</h3>
+            <pre class="code-block"><code>python research_tools/fix_lekiwi_usd.py  # adapt paths inside script
+python research_tools/check_usd.py --usd lekiwi_floating.usd  # validate</code></pre>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">3</div>
+          <div class="qs-content">
+            <h3>Check for ghost robot (missing collisions)</h3>
+            <pre class="code-block"><code>python research_tools/find_collisions.py --usd lekiwi_floating.usd
+# If count is 0 → inject collisions:
+python research_tools/add_wheel_collisions.py</code></pre>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">4</div>
+          <div class="qs-content">
+            <h3>Physics validation</h3>
+            <pre class="code-block"><code>python research_tools/check_wheel_physics.py
+# Confirm: joint velocities > 0, base velocity > 0, no NaN</code></pre>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">5</div>
+          <div class="qs-content">
+            <h3>Update robot config and run evaluation</h3>
+            <pre class="code-block"><code># Update configs/robots/your_robot_config.py with correct USD path
+python eval_pointgoal_wheeled.py --robot your_robot --port 8888 \
+  --scene_dir ./assets/scenes/cluttered_easy</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2>Contributing New Tools</h2>
+      <p>
+        If you develop a useful diagnostic or integration tool during your research with this sandbox, consider contributing it back to the <code>research_tools/</code> directory. 
+        Each tool should follow the conventions:
+      </p>
+      <ul>
+        <li>Include a module-level docstring describing what the script does and what it fixes</li>
+        <li>Accept <code>--usd</code> as a command-line argument where the input file is variable</li>
+        <li>Print clear PASS/FAIL or diagnostic output to stdout</li>
+        <li>Be non-destructive by default (write to a new file, never overwrite the input)</li>
+        <li>Handle the Isaac Sim EULA accept env var: <code>os.environ["OMNI_KIT_ACCEPT_EULA"] = "YES"</code></li>
+      </ul>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-logo">⚙️ NavDP Sandbox</span>
+        <p>An academic research fork exploring Diffusion Policies for omni-directional robotics navigation.</p>
+        <div class="footer-links">
+          <a href="https://github.com/xoTEMPESTox/NavDP" target="_blank">GitHub</a>
+          <a href="https://arxiv.org/abs/2505.08712" target="_blank">arXiv Paper</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Documentation</h4>
+          <a href="overview.html">Project Overview</a>
+          <a href="lekiwi.html">LeKiwi Integration</a>
+          <a href="architecture.html">Architecture</a>
+          <a href="installation.html">Installation</a>
+          <a href="research_tools.html">Research Tools</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Built upon <strong>NavDP</strong> by Wenzhe Cai et al. · Research sandbox by <a href="https://github.com/xoTEMPESTox" target="_blank">xoTEMPESTox</a></p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

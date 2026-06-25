@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Overview — NavDP Research Sandbox</title>
+  <meta name="description" content="Complete technical overview of the NavDP Research Sandbox: architecture, navigation tasks, scene types, robot support, and baselines." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1.2" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">⚙️</span><span class="logo-text">NavDP <span class="logo-accent">Sandbox</span></span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="overview.html" class="nav-link active">Overview</a></li>
+        <li><a href="lekiwi.html" class="nav-link">LeKiwi</a></li>
+        <li><a href="architecture.html" class="nav-link">Architecture</a></li>
+        <li><a href="installation.html" class="nav-link">Installation</a></li>
+        <li><a href="research_tools.html" class="nav-link">Tools</a></li>
+        <li><a href="https://github.com/xoTEMPESTox/NavDP" target="_blank" class="nav-cta"><svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-breadcrumb"><a href="index.html">Home</a> <span>›</span> Overview</div>
+      <div class="section-badge" style="margin-bottom:1rem">Project Overview</div>
+      <h1>What is NavDP Research Sandbox?</h1>
+      <p>A deep-dive into the framework's purpose, how it relates to the official NavDP paper, what tasks it supports, and what this fork adds on top.</p>
+    </div>
+  </div>
+
+  <!-- Background Section -->
+  <section class="content-section">
+    <div class="content-container">
+      <h2>Background & Motivation</h2>
+      <p>
+        <strong>NavDP</strong> (Navigation Diffusion Policy) is a breakthrough research paper by Wenzhe Cai et al. that demonstrates how a 
+        diffusion-based model trained entirely in simulation can achieve robust, real-world mapless navigation. The key insight is using 
+        <em>privileged information</em> during training (e.g., ground-truth depth, full scene geometry) that is unavailable at inference time, 
+        dramatically narrowing the sim-to-real gap.
+      </p>
+      <p>
+        This fork is an <strong>academic research sandbox</strong> that extends the official evaluation framework in three primary directions:
+      </p>
+      <ul>
+        <li><strong>Hardware Expansion:</strong> Integrating the LeKiwi 3-wheeled omni-directional robot beyond the default Clearpath Dingo differential-drive base</li>
+        <li><strong>Visualization Research:</strong> Adding Bird's Eye View and Third-Person perspective cameras for richer qualitative evaluation</li>
+        <li><strong>Tooling:</strong> Building reusable diagnostic scripts that automate the robot on-boarding pipeline (USD fixing → collision injection → physics validation)</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">📄</span>
+        <div class="callout-content">
+          <strong>Citing the Original Work</strong>
+          This sandbox is built upon: <em>"NavDP: Learning Sim-to-Real Navigation Diffusion Policy with Privileged Information Guidance"</em> by Wenzhe Cai, Jiaqi Peng, Yuqiang Yang, Yujian Zhang, Meng Wei, Hanqing Wang, Yilun Chen, Tai Wang and Jiangmiao Pang.
+          <a href="https://arxiv.org/abs/2505.08712" target="_blank">arXiv:2505.08712</a> · <a href="https://github.com/InternRobotics/NavDP" target="_blank">Official Repository</a>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2>Navigation Tasks</h2>
+      <p>The benchmark supports three classes of navigation challenges, each with separate evaluation scripts and goal-conditioning inputs:</p>
+
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Goal Conditioning</th>
+            <th>Eval Script</th>
+            <th>Teleop Script</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>NoGoal Exploration</td>
+            <td>None (open-ended)</td>
+            <td><code>eval_nogoal_wheeled.py</code></td>
+            <td><code>teleop_nogoal_wheeled.py</code></td>
+          </tr>
+          <tr>
+            <td>PointGoal Navigation</td>
+            <td>(x, y) world coordinate</td>
+            <td><code>eval_pointgoal_wheeled.py</code></td>
+            <td><code>teleop_pointgoal_wheeled.py</code></td>
+          </tr>
+          <tr>
+            <td>ImageGoal Navigation</td>
+            <td>Reference RGB image</td>
+            <td><code>eval_imagegoal_wheeled.py</code></td>
+            <td><code>teleop_imagegoal_wheeled.py</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Episode Format</h3>
+      <p>
+        Start/goal pairs for each task are stored as <code>.npy</code> files inside the scene directories. Both PointGoal and ImageGoal 
+        episodes are pre-generated per scene so that evaluations are reproducible across methods:
+      </p>
+      <pre><code>assets/scenes/cluttered_easy/easy_0/
+├── cluttered-0.usd/                     # Scene geometry
+├── imagegoal_start_goal_pairs.npy       # ImageGoal episodes
+└── pointgoal_start_goal_pairs.npy       # PointGoal episodes</code></pre>
+
+      <div class="divider"></div>
+
+      <h2>Scene Categories</h2>
+      <p>The benchmark supports four scene categories from <a href="https://huggingface.co/datasets/InternRobotics/Scene-N1" target="_blank">InternScene-N1</a>, spanning a spectrum from synthetic clutter to photorealistic indoor environments:</p>
+
+      <table class="doc-table">
+        <thead>
+          <tr><th>Scene Type</th><th>Description</th><th>Difficulty</th><th>Episodes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cluttered Easy</td><td>Random obstacles in open space</td><td>Low</td><td>assets/scenes/cluttered_easy/</td></tr>
+          <tr><td>Cluttered Hard</td><td>Dense clutter, tight corridors</td><td>High</td><td>assets/scenes/cluttered_hard/</td></tr>
+          <tr><td>InternScenes Home</td><td>Realistic home layouts (15+ scenes)</td><td>Medium</td><td>assets/scenes/internscenes_home/</td></tr>
+          <tr><td>InternScenes Commercial</td><td>Office / commercial spaces</td><td>Medium–High</td><td>assets/scenes/internscenes_commercial/</td></tr>
+        </tbody>
+      </table>
+
+      <div class="divider"></div>
+
+      <h2 id="visualization">Visualization System</h2>
+      <p>
+        One of the key contributions of this fork is the <strong>multi-perspective visualization pipeline</strong> implemented in 
+        <code>utils_tasks/visualization_utils.py</code>. The <code>VisualizationManager</code> class provides:
+      </p>
+
+      <h3>Bird's Eye View (BEV)</h3>
+      <ul>
+        <li>Renders a top-down occupancy grid centered on the robot</li>
+        <li>Tracks historical positions (configurable <code>history_size</code>) in gray</li>
+        <li>Current obstacle points in red</li>
+        <li>Planned trajectory overlaid with a robot rectangle (white outline, oriented by yaw)</li>
+        <li>Anti-aliased via OpenCV <code>LINE_AA</code> and Gaussian blur post-processing</li>
+      </ul>
+
+      <h3>Multi-Trajectory Value Heatmap</h3>
+      <ul>
+        <li>Renders all candidate trajectories proposed by the diffusion policy</li>
+        <li>Colors each trajectory by its value score using a blue→green→red gradient</li>
+        <li>Fixed normalization range <code>[-1.2, 0.2]</code> for consistent comparison across episodes</li>
+        <li>Composited below the RGB+BEV strip in the final output video frame</li>
+      </ul>
+
+      <h3>Output Format</h3>
+      <p>
+        Evaluation runs write video frames via <code>imageio</code> to <code>evaluation_outputs/videos/</code>. 
+        Raw metrics (success rate, path length, episode duration) are logged as CSV to <code>evaluation_outputs/benchmark_runs/</code>.
+      </p>
+
+      <div class="divider"></div>
+
+      <h2>Robot Comparison</h2>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Property</th><th>Dingo (Default)</th><th>LeKiwi (Custom)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Drive Type</td><td>Differential (2-wheel)</td><td>Omni-directional (3-wheel)</td></tr>
+          <tr><td>Wheel Radius</td><td>0.0591 m</td><td>0.0325 m</td></tr>
+          <tr><td>Wheel Base</td><td>0.22616 m</td><td>0.18 m</td></tr>
+          <tr><td>Actuated Joints</td><td>left_wheel, right_wheel</td><td>3× ST3215 Servo Motors + 6-DOF arm</td></tr>
+          <tr><td>USD Source</td><td>assets/robots/dingo.usd</td><td>assets/robots/lekiwi/lekiwi_final.usd</td></tr>
+          <tr><td>Config File</td><td>configs/robots/dingo_config.py</td><td>configs/robots/lekiwi_config.py</td></tr>
+          <tr><td>Controller</td><td>DifferentialController</td><td>DifferentialController (2-of-3 wheels)</td></tr>
+          <tr><td>Collision Model</td><td>Built-in USD collisions</td><td>Procedurally injected (Cyl + Sphere)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="divider"></div>
+
+      <h2>Repository Structure</h2>
+      <div class="file-tree">
+<span class="dir">NavDP/</span>
+├── <span class="dir">assets/</span>                         <span class="comment"># Scene USDs, robot USDs, episode .npy files</span>
+│   ├── <span class="dir">robots/</span>
+│   │   ├── dingo.usd
+│   │   └── <span class="dir">lekiwi/</span>
+│   │       ├── lekiwi.usd           <span class="comment"># Original export (broken articulation)</span>
+│   │       ├── lekiwi_floating.usd  <span class="comment"># Fixed articulation root</span>
+│   │       └── lekiwi_final.usd     <span class="comment"># Final: articulation + collisions</span>
+│   └── <span class="dir">scenes/</span>                    <span class="comment"># Cluttered / Home / Commercial</span>
+├── <span class="dir">baselines/</span>                     <span class="comment"># Four navigation policy servers</span>
+│   ├── <span class="dir">navdp/</span>                     <span class="comment"># Primary diffusion policy</span>
+│   ├── <span class="dir">logoplanner/</span>               <span class="comment"># Language-guided planner + real-world host</span>
+│   ├── <span class="dir">nomad/</span>                     <span class="comment"># Topological diffusion model</span>
+│   └── <span class="dir">vint/</span>                      <span class="comment"># Visual Navigation Transformer</span>
+├── <span class="dir">configs/</span>                       <span class="comment"># Robot & scene configuration classes</span>
+│   ├── <span class="dir">robots/</span>
+│   │   ├── dingo_config.py
+│   │   └── lekiwi_config.py
+│   ├── <span class="dir">scenes/</span>
+│   └── <span class="dir">tasks/</span>
+├── <span class="dir">wheeled_robots/</span>                <span class="comment"># Robot controller implementations</span>
+│   └── <span class="dir">controllers/</span>
+│       ├── base_controller.py
+│       └── differential_controller.py
+├── <span class="dir">utils_tasks/</span>                   <span class="comment"># Shared evaluation utilities</span>
+│   ├── basic_utils.py             <span class="comment"># PlanningInput/Output, metrics, drawing</span>
+│   ├── client_utils.py            <span class="comment"># HTTP client helpers (navigator_reset, etc.)</span>
+│   ├── tracking_utils.py          <span class="comment"># MPC_Controller</span>
+│   └── visualization_utils.py    <span class="comment"># VisualizationManager (BEV, heatmap)</span>
+├── <span class="dir">research_tools/</span>                <span class="comment"># USD diagnostics & fix scripts (this fork)</span>
+├── <span class="dir">development_logs/</span>              <span class="comment"># Engineering journals</span>
+├── <span class="dir">evaluation_outputs/</span>            <span class="comment"># Videos, CSVs from benchmark runs</span>
+├── eval_pointgoal_wheeled.py      <span class="comment"># Main evaluation entry points</span>
+├── eval_imagegoal_wheeled.py
+├── eval_nogoal_wheeled.py
+├── eval_startgoal_wheeled.py
+├── teleop_pointgoal_wheeled.py    <span class="comment"># Manual teleoperation scripts</span>
+└── requirements.txt</div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-logo">⚙️ NavDP Sandbox</span>
+        <p>An academic research fork exploring Diffusion Policies for omni-directional robotics navigation.</p>
+        <div class="footer-links">
+          <a href="https://github.com/xoTEMPESTox/NavDP" target="_blank">GitHub</a>
+          <a href="https://arxiv.org/abs/2505.08712" target="_blank">arXiv Paper</a>
+          <a href="https://github.com/InternRobotics/NavDP" target="_blank">Official NavDP</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Documentation</h4>
+          <a href="overview.html">Project Overview</a>
+          <a href="lekiwi.html">LeKiwi Integration</a>
+          <a href="architecture.html">Architecture</a>
+          <a href="installation.html">Installation</a>
+          <a href="research_tools.html">Research Tools</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="https://arxiv.org/abs/2505.08712" target="_blank">NavDP Paper</a>
+          <a href="https://github.com/InternRobotics/NavDP" target="_blank">Official Repo</a>
+          <a href="https://developer.nvidia.com/isaac/sim" target="_blank">Isaac Sim</a>
+          <a href="https://isaac-sim.github.io/IsaacLab/" target="_blank">Isaac Lab</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Built upon <strong>NavDP</strong> by Wenzhe Cai et al. · Research sandbox by <a href="https://github.com/xoTEMPESTox" target="_blank">xoTEMPESTox</a></p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

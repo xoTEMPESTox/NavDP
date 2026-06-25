@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NavDP Research Sandbox — Omni-directional Robotics & Diffusion Policy</title>
+  <meta name="description" content="A research fork of NavDP exploring Diffusion Policies for robotics navigation. Features LeKiwi 3-wheeled omni-directional robot integration, multi-perspective visualization, and professional research tooling on Isaac Sim." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1.2" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">⚙️</span>
+        <span class="logo-text">NavDP <span class="logo-accent">Sandbox</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="overview.html" class="nav-link">Overview</a></li>
+        <li><a href="lekiwi.html" class="nav-link">LeKiwi</a></li>
+        <li><a href="architecture.html" class="nav-link">Architecture</a></li>
+        <li><a href="installation.html" class="nav-link">Installation</a></li>
+        <li><a href="research_tools.html" class="nav-link">Tools</a></li>
+        <li>
+          <a href="https://github.com/xoTEMPESTox/NavDP" target="_blank" class="nav-cta">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
+          </a>
+        </li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-grid"></div>
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Research Sandbox · Academic Fork
+      </div>
+      <h1 class="hero-title">
+        NavDP
+        <span class="hero-title-accent">Research</span>
+        <span class="hero-title-line">Sandbox</span>
+      </h1>
+      <p class="hero-subtitle">
+        Exploring <strong>Diffusion Policies</strong> for omni-directional robotics navigation.
+        Built on <a href="https://arxiv.org/abs/2505.08712" target="_blank" class="inline-link">NavDP</a> · 
+        Runs on <strong>Isaac Sim 4.2 + Isaac Lab 1.2</strong>
+      </p>
+      <div class="hero-actions">
+        <a href="overview.html" class="btn btn-primary">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          Explore Research
+        </a>
+        <a href="lekiwi.html" class="btn btn-secondary">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+          LeKiwi Integration
+        </a>
+        <a href="https://arxiv.org/abs/2505.08712" target="_blank" class="btn btn-ghost">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          arXiv Paper
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">3</span>
+          <span class="stat-label">Nav. Tasks</span>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat">
+          <span class="stat-value">2</span>
+          <span class="stat-label">Robot Models</span>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat">
+          <span class="stat-value">4</span>
+          <span class="stat-label">Baselines</span>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat">
+          <span class="stat-value">5</span>
+          <span class="stat-label">Research Tools</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- Key Contributions -->
+  <section class="section" id="contributions">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Research Contributions</div>
+        <h2 class="section-title">What This Fork Adds</h2>
+        <p class="section-subtitle">Three primary areas of extension beyond the official NavDP framework</p>
+      </div>
+      <div class="cards-grid">
+        <a href="lekiwi.html" class="card card-featured">
+          <div class="card-icon">🤖</div>
+          <h3 class="card-title">LeKiwi Integration</h3>
+          <p class="card-desc">
+            Full integration of the <strong>LeKiwi 3-wheeled omni-directional robot</strong> into Isaac Lab.
+            Replacing the default Dingo differential-drive base with a more complex kinematic model required
+            solving ghost robots, physics explosions, and friction modeling — all documented in the
+            <span class="card-link">Integration Log</span>.
+          </p>
+          <div class="card-tags">
+            <span class="tag">USD Preparation</span>
+            <span class="tag">Physics Tuning</span>
+            <span class="tag">Omni-directional</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </a>
+
+        <a href="overview.html#visualization" class="card">
+          <div class="card-icon">📊</div>
+          <h3 class="card-title">Multi-Perspective Visualization</h3>
+          <p class="card-desc">
+            Added <strong>Bird's Eye View (BEV)</strong> and <strong>Third-Person View</strong> camera perspectives
+            for richer evaluation analysis. The <code>VisualizationManager</code> renders trajectory overlays,
+            occupancy grids, and multi-trajectory value heat-maps in real time.
+          </p>
+          <div class="card-tags">
+            <span class="tag">BEV</span>
+            <span class="tag">OpenCV</span>
+            <span class="tag">Real-time</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </a>
+
+        <a href="research_tools.html" class="card">
+          <div class="card-icon">🛠️</div>
+          <h3 class="card-title">Research Tooling Suite</h3>
+          <p class="card-desc">
+            A dedicated <code>research_tools/</code> directory houses automated scripts for USD fixing,
+            collision injection, physics validation, and joint inspection — dramatically reducing robot
+            on-boarding time for new hardware.
+          </p>
+          <div class="card-tags">
+            <span class="tag">Automation</span>
+            <span class="tag">USD/Physics</span>
+            <span class="tag">Diagnostics</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Tasks -->
+  <section class="section section-dark" id="tasks">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Supported Tasks</div>
+        <h2 class="section-title">Navigation Benchmarks</h2>
+        <p class="section-subtitle">Three evaluation modes from the official NavDP benchmark, now runnable on both Dingo and LeKiwi</p>
+      </div>
+      <div class="tasks-grid">
+        <div class="task-card">
+          <div class="task-icon task-icon-blue">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>
+          </div>
+          <div class="task-content">
+            <h3>NoGoal Exploration</h3>
+            <p>The robot explores freely with no explicit target. Tests general spatial reasoning and obstacle avoidance under the diffusion policy.</p>
+            <code class="code-snippet">python eval_nogoal_wheeled.py --robot lekiwi --port 8888</code>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-icon task-icon-green">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+          </div>
+          <div class="task-content">
+            <h3>PointGoal Navigation</h3>
+            <p>Navigate to a given (x, y) coordinate in the world frame. Evaluates metric localization and trajectory planning accuracy.</p>
+            <code class="code-snippet">python eval_pointgoal_wheeled.py --robot lekiwi --scene_dir [PATH]</code>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-icon task-icon-purple">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+          </div>
+          <div class="task-content">
+            <h3>ImageGoal Navigation</h3>
+            <p>Navigate to a location depicted in a reference image. Tests visual goal-conditioning and semantic understanding of the policy.</p>
+            <code class="code-snippet">python eval_imagegoal_wheeled.py --robot lekiwi --port 8888</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Overview -->
+  <section class="section" id="arch-overview">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">System Design</div>
+        <h2 class="section-title">Decoupled Architecture</h2>
+        <p class="section-subtitle">The evaluation framework is cleanly separated into three independent layers</p>
+      </div>
+      <div class="arch-diagram">
+        <div class="arch-layer arch-layer-1">
+          <div class="arch-layer-label">Navigation Policy Server</div>
+          <div class="arch-layer-content">
+            <div class="arch-block">NavDP Model</div>
+            <div class="arch-block">LoGoPlanner</div>
+            <div class="arch-block">NoMAD / ViNT</div>
+          </div>
+          <div class="arch-layer-desc">HTTP API · Port-based · Runs independently</div>
+        </div>
+        <div class="arch-arrow-down">
+          <svg width="24" height="40" viewBox="0 0 24 40"><path d="M12 0 L12 30 M6 24 L12 30 L18 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>HTTP Requests</span>
+        </div>
+        <div class="arch-layer arch-layer-2">
+          <div class="arch-layer-label">MPC Trajectory Controller</div>
+          <div class="arch-layer-content">
+            <div class="arch-block arch-block-accent">Async Planning Thread</div>
+            <div class="arch-block arch-block-accent">MPC Controller</div>
+            <div class="arch-block arch-block-accent">Visualization Manager</div>
+          </div>
+          <div class="arch-layer-desc">Asynchronous · Real-time tracking · Thread-safe</div>
+        </div>
+        <div class="arch-arrow-down">
+          <svg width="24" height="40" viewBox="0 0 24 40"><path d="M12 0 L12 30 M6 24 L12 30 L18 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>IsaacLab API</span>
+        </div>
+        <div class="arch-layer arch-layer-3">
+          <div class="arch-layer-label">Isaac Sim Environment</div>
+          <div class="arch-layer-content">
+            <div class="arch-block">Dingo / LeKiwi Robot</div>
+            <div class="arch-block">Scene Assets</div>
+            <div class="arch-block">Sensors (RGB, Depth)</div>
+          </div>
+          <div class="arch-layer-desc">IsaacSim 4.2 · IsaacLab 1.2 · Physics simulation</div>
+        </div>
+      </div>
+      <div class="arch-cta">
+        <a href="architecture.html" class="btn btn-primary">Full Architecture Docs →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Baselines Highlight -->
+  <section class="section section-dark" id="baselines">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Included Baselines</div>
+        <h2 class="section-title">Evaluated Methods</h2>
+        <p class="section-subtitle">Four navigation approaches integrated as plug-and-play HTTP servers</p>
+      </div>
+      <div class="baselines-grid">
+        <div class="baseline-card">
+          <div class="baseline-header">
+            <span class="baseline-num">01</span>
+            <h3>NavDP</h3>
+          </div>
+          <p>The primary method. End-to-end diffusion policy for mapless navigation trained entirely in simulation with privileged information guidance.</p>
+          <div class="baseline-files">
+            <code>baselines/navdp/navdp_server.py</code>
+            <code>baselines/navdp/policy_network.py</code>
+          </div>
+        </div>
+        <div class="baseline-card">
+          <div class="baseline-header">
+            <span class="baseline-num">02</span>
+            <h3>LoGoPlanner</h3>
+          </div>
+          <p>Language-guided planner with depth estimation via Depth Anything V2. Extended with a real-world LeKiwi host client for sim-to-real transfer.</p>
+          <div class="baseline-files">
+            <code>baselines/logoplanner/logoplanner_server.py</code>
+            <code>baselines/logoplanner/lekiwi_logoplanner_host.py</code>
+          </div>
+        </div>
+        <div class="baseline-card">
+          <div class="baseline-header">
+            <span class="baseline-num">03</span>
+            <h3>NoMAD</h3>
+          </div>
+          <p>Goal-conditioned diffusion model for topological navigation with sub-goal prediction. Uses YAML-based configuration for easy parameter sweeps.</p>
+          <div class="baseline-files">
+            <code>baselines/nomad/nomad_server.py</code>
+            <code>baselines/nomad/configs/nomad.yaml</code>
+          </div>
+        </div>
+        <div class="baseline-card">
+          <div class="baseline-header">
+            <span class="baseline-num">04</span>
+            <h3>ViNT</h3>
+          </div>
+          <p>Visual Navigation Transformer. A foundation model for mobile robotics navigation using a transformer backbone for visual goal conditioning.</p>
+          <div class="baseline-files">
+            <code>baselines/vint/vint_server.py</code>
+            <code>baselines/vint/vint_network.py</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Start -->
+  <section class="section" id="quickstart">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Get Started</div>
+        <h2 class="section-title">Quick Start</h2>
+        <p class="section-subtitle">Get up and running in minutes</p>
+      </div>
+      <div class="quickstart-steps">
+        <div class="qs-step">
+          <div class="qs-num">1</div>
+          <div class="qs-content">
+            <h3>Clone the Repository</h3>
+            <pre class="code-block"><code>git clone https://github.com/xoTEMPESTox/NavDP
+cd NavDP</code></pre>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">2</div>
+          <div class="qs-content">
+            <h3>Set Up IsaacSim Environment</h3>
+            <pre class="code-block"><code>conda create -n isaaclab python=3.10
+conda activate isaaclab
+pip install isaacsim==4.2.0.2 isaacsim-extscache-physics==4.2.0.2 \
+  isaacsim-extscache-kit==4.2.0.2 isaacsim-extscache-kit-sdk==4.2.0.2 \
+  --extra-index-url https://pypi.nvidia.com</code></pre>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">3</div>
+          <div class="qs-content">
+            <h3>Start the NavDP Policy Server</h3>
+            <pre class="code-block"><code>cd baselines/navdp/
+pip install -r requirements.txt
+python navdp_server.py --port 8888 --checkpoint /path/to/checkpoint.pth</code></pre>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">4</div>
+          <div class="qs-content">
+            <h3>Run Evaluation</h3>
+            <pre class="code-block"><code># PointGoal with Dingo (default)
+python eval_pointgoal_wheeled.py --port 8888 --scene_dir ./assets/scenes/cluttered_easy
+
+# PointGoal with LeKiwi
+python eval_pointgoal_wheeled.py --port 8888 --robot lekiwi --scene_dir ./assets/scenes/cluttered_easy</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="qs-cta">
+        <a href="installation.html" class="btn btn-primary">Full Installation Guide →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Blog / Log -->
+  <section class="section section-dark" id="blog">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Research Journal</div>
+        <h2 class="section-title">Development Log Highlights</h2>
+        <p class="section-subtitle">Key engineering discoveries documented during the LeKiwi integration</p>
+      </div>
+      <div class="log-timeline">
+        <div class="log-entry">
+          <div class="log-chapter">Ch. 1</div>
+          <div class="log-body">
+            <h3 class="log-title">The Immovable Object</h3>
+            <p>The robot spawned but refused to move — caused by a fixed <code>root_joint</code> in the USD that treats it as a static prop, not a mobile agent. <strong>Fix:</strong> <code>fix_lekiwi_usd.py</code> deactivates the joint and applies <code>ArticulationRootAPI</code>.</p>
+          </div>
+        </div>
+        <div class="log-entry">
+          <div class="log-chapter">Ch. 2</div>
+          <div class="log-body">
+            <h3 class="log-title">The Ghost in the Machine</h3>
+            <p>Wheels spinning at 20 rad/s, robot not moving an inch. The collision meshes were missing — the physics engine saw an empty ghost. <strong>Fix:</strong> <code>add_wheel_collisions.py</code> procedurally injects cylinder/box geometry.</p>
+          </div>
+        </div>
+        <div class="log-entry">
+          <div class="log-chapter">Ch. 3</div>
+          <div class="log-body">
+            <h3 class="log-title">The Exploding Robot (NaNs)</h3>
+            <p>Simulation flooded with <code>NaN</code> errors. Self-collisions between overlapping shapes + high actuator gains caused infinite force vectors. <strong>Fix:</strong> Disabled self-collisions, used <code>torch.linalg.pinv</code> instead of <code>torch.inverse</code>.</p>
+          </div>
+        </div>
+        <div class="log-entry">
+          <div class="log-chapter">Ch. 4</div>
+          <div class="log-body">
+            <h3 class="log-title">The Anchor</h3>
+            <p>Robot dragging like a weight — cylinder collision on the caster wheel resisted lateral sliding. <strong>Fix:</strong> Front wheels → Cylinder (traction). Back wheel → Sphere (zero friction, free sliding).</p>
+          </div>
+        </div>
+      </div>
+      <div class="log-cta">
+        <a href="lekiwi.html" class="btn btn-primary">Read Full Integration Log →</a>
+        <a href="https://www.linkedin.com/posts/priyanshu123sah_physicalai-robotics-deeplearning-activity-7421533400718770176-hZhs" target="_blank" class="btn btn-ghost">LinkedIn Article →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-logo">⚙️ NavDP Sandbox</span>
+        <p>An academic research fork exploring Diffusion Policies for omni-directional robotics navigation.</p>
+        <div class="footer-links">
+          <a href="https://github.com/xoTEMPESTox/NavDP" target="_blank">GitHub</a>
+          <a href="https://arxiv.org/abs/2505.08712" target="_blank">arXiv Paper</a>
+          <a href="https://github.com/InternRobotics/NavDP" target="_blank">Official NavDP</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Documentation</h4>
+          <a href="overview.html">Project Overview</a>
+          <a href="lekiwi.html">LeKiwi Integration</a>
+          <a href="architecture.html">Architecture</a>
+          <a href="installation.html">Installation</a>
+          <a href="research_tools.html">Research Tools</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="https://arxiv.org/abs/2505.08712" target="_blank">NavDP Paper</a>
+          <a href="https://github.com/InternRobotics/NavDP" target="_blank">Official Repo</a>
+          <a href="https://developer.nvidia.com/isaac/sim" target="_blank">Isaac Sim</a>
+          <a href="https://isaac-sim.github.io/IsaacLab/" target="_blank">Isaac Lab</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Built upon <strong>NavDP</strong> by Wenzhe Cai et al. · Research sandbox by <a href="https://github.com/xoTEMPESTox" target="_blank">xoTEMPESTox</a></p>
+      <p class="footer-cite">NavDP: Learning Sim-to-Real Navigation Diffusion Policy with Privileged Information Guidance · <a href="https://arxiv.org/abs/2505.08712" target="_blank">arXiv:2505.08712</a></p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

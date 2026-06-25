@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Architecture — NavDP Research Sandbox</title>
+  <meta name="description" content="Technical deep-dive into the NavDP Research Sandbox architecture: decoupled evaluation framework, async MPC controller, threading model, sensor pipeline, and evaluation flow." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1.2" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">⚙️</span><span class="logo-text">NavDP <span class="logo-accent">Sandbox</span></span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="overview.html" class="nav-link">Overview</a></li>
+        <li><a href="lekiwi.html" class="nav-link">LeKiwi</a></li>
+        <li><a href="architecture.html" class="nav-link active">Architecture</a></li>
+        <li><a href="installation.html" class="nav-link">Installation</a></li>
+        <li><a href="research_tools.html" class="nav-link">Tools</a></li>
+        <li><a href="https://github.com/xoTEMPESTox/NavDP" target="_blank" class="nav-cta"><svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-breadcrumb"><a href="index.html">Home</a> <span>›</span> Architecture</div>
+      <div class="section-badge" style="margin-bottom:1rem">System Design</div>
+      <h1>Framework Architecture</h1>
+      <p>How the evaluation environment, MPC controller, and navigation policy server interact — covering threading, data flow, and the sensor pipeline.</p>
+    </div>
+  </div>
+
+  <section class="content-section">
+    <div class="content-container">
+      <h2>Design Philosophy</h2>
+      <p>The framework is built around three core design principles, inherited from the original NavDP benchmark and extended in this fork:</p>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:1rem; margin: 1.5rem 0;">
+        <div style="background:var(--bg-card); border:1px solid var(--border-card); border-radius:12px; padding:1.5rem;">
+          <div style="color:var(--accent-blue); font-size:1.5rem; margin-bottom:0.75rem">⟨⟩</div>
+          <h3 style="font-size:0.95rem; margin-bottom:0.5rem">Decoupled Policy Server</h3>
+          <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.65">Navigation models run as independent HTTP servers. The simulator calls them via REST API — swapping algorithms requires zero changes to the simulator code.</p>
+        </div>
+        <div style="background:var(--bg-card); border:1px solid var(--border-card); border-radius:12px; padding:1.5rem;">
+          <div style="color:var(--accent-purple); font-size:1.5rem; margin-bottom:0.75rem">⟳</div>
+          <h3 style="font-size:0.95rem; margin-bottom:0.5rem">Async Planning Loop</h3>
+          <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.65">A dedicated planning thread posts observations to the policy server continuously. The MPC controller tracks the latest trajectory asynchronously, enabling real-time-like evaluation metrics.</p>
+        </div>
+        <div style="background:var(--bg-card); border:1px solid var(--border-card); border-radius:12px; padding:1.5rem;">
+          <div style="color:var(--accent-green); font-size:1.5rem; margin-bottom:0.75rem">⊞</div>
+          <h3 style="font-size:0.95rem; margin-bottom:0.5rem">Multi-Env Parallelism</h3>
+          <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.65">Isaac Lab's vectorized environment supports N parallel simulation instances via <code>--num_envs</code>. Each environment has its own <code>VisualizationManager</code> and MPC instance.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2>Component Map</h2>
+      <p>The main evaluation scripts (<code>eval_*_wheeled.py</code>) orchestrate all components. Here is how data flows through the system:</p>
+
+      <pre><code>+----------------------------------------------------------------+
+|                       Isaac Sim Process                        |
+|                                                                |
+|  +----------------------+    +------------------------------+  |
+|  |    Isaac Lab Env     |    |          Main Loop           |  |
+|  | (ManagerBasedRLEnv)  |    |  - step simulation           |  |
+|  |                      |<---|  - read sensors              |  |
+|  | Robot (Dingo/LeKiwi) |    |  - apply MPC actions         |  |
+|  | Scene USD            |    |  - write visualization       |  |
+|  | Cameras (RGB+Depth)  |    |  - log metrics               |  |
+|  +----------------------+    +------------------------------+  |
+|                                             | shared memory    |
+|                              +--------------v---------------+  |
+|                              |   planning_thread()          |  |
+|                              |  - reads PlanningInput       |  |
+|                              |  - POSTs to HTTP policy API  |  |
+|                              |  - writes PlanningOutput     |  |
+|                              +------------------------------+  |
++----------------------------------------------------------------+
+                                          | HTTP POST (JSON)
+                              +-----------v------------------+
+                              |   Navigation Policy Server   |
+                              |      (separate process)      |
+                              |                              |
+                              |    NavDP / LoGoPlanner /     |
+                              |   NoMAD / ViNT / ViPlanner   |
+                              |                              |
+                              |  Returns: trajectory array   |
+                              +------------------------------+</code></pre>
+
+      <div class="divider"></div>
+
+      <h2>Threading Model</h2>
+      <p>Each evaluation script uses two threads to decouple simulation speed from network latency:</p>
+
+      <h3>Main Thread (Simulation)</h3>
+      <ul>
+        <li>Drives the IsaacLab <code>env.step()</code> loop at simulation rate (~20 Hz)</li>
+        <li>Reads RGB image, depth map, camera intrinsics, robot pose from the environment</li>
+        <li>Writes observations to <code>PlanningInput</code> under <code>input_lock</code></li>
+        <li>Reads the latest planned trajectory from <code>PlanningOutput</code> under <code>output_lock</code></li>
+        <li>Passes the trajectory to <code>MPC_Controller</code> to compute wheel velocity commands</li>
+        <li>Applies wheel actions via <code>env.action_manager.apply_action()</code></li>
+        <li>Calls <code>VisualizationManager.render()</code> and writes frames to video</li>
+      </ul>
+
+      <h3>Planning Thread (HTTP Client)</h3>
+      <ul>
+        <li>Runs in background via <code>threading.Thread</code></li>
+        <li>Continuously polls <code>PlanningInput</code> for new observations</li>
+        <li>Serializes observations (RGB as base64 JPEG, depth as float32 bytes) into JSON</li>
+        <li>POSTs to the policy server: <code>http://localhost:{port}/plan</code></li>
+        <li>Receives trajectory predictions and writes to <code>PlanningOutput</code></li>
+        <li>Sets <code>is_planning = False</code> when idle so the main thread can detect stalls</li>
+      </ul>
+
+      <h3>Shared State Objects</h3>
+      <pre><code># utils_tasks/basic_utils.py
+class PlanningInput:
+    current_goal: np.ndarray | None
+    current_image: np.ndarray | None       # RGB (H, W, 3) uint8
+    current_depth: np.ndarray | None       # Depth (H, W) float32 in meters
+    camera_pos: np.ndarray | None          # [x, y, z] world position
+    camera_rot: np.ndarray | None          # Quaternion [w, x, y, z]
+
+class PlanningOutput:
+    trajectory: np.ndarray | None          # (N, 2) array of waypoints
+    all_trajectories: list | None          # All candidate trajectories
+    trajectory_values: list | None         # Scalar value per trajectory
+    is_planning: bool                      # True while HTTP call in flight</code></pre>
+
+      <div class="divider"></div>
+
+      <h2>MPC Trajectory Controller</h2>
+      <p>
+        The <code>MPC_Controller</code> class in <code>utils_tasks/tracking_utils.py</code> is responsible for converting 
+        trajectory waypoints (output by the policy) into wheel velocity commands. Key aspects:
+      </p>
+      <ul>
+        <li>Uses a <strong>Model Predictive Control</strong> formulation that optimizes a receding-horizon cost over the planned waypoints</li>
+        <li>Handles coordinate frame transforms between the camera/world frame and the robot body frame</li>
+        <li>Uses <strong>CasADi</strong> for symbolic optimization and <strong>OSQP</strong> as the QP solver backend (both in <code>requirements.txt</code>)</li>
+        <li>Outputs <code>(left_wheel_velocity, right_wheel_velocity)</code> in rad/s for the <code>DifferentialController</code></li>
+        <li>Stop threshold <code>--stop_threshold</code> (default: -3.0) controls when the robot considers an episode completed</li>
+      </ul>
+
+      <div class="divider"></div>
+
+      <h2>Sensor Pipeline</h2>
+      <p>Each robot configuration defines three sensor configurations. During evaluation, the simulator reads:</p>
+
+      <table class="doc-table">
+        <thead>
+          <tr><th>Sensor</th><th>Type</th><th>Resolution</th><th>Usage</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Front Camera (RGB)</td><td>PinholeCamera</td><td>640×360</td><td>Policy observation input; visualization left panel</td></tr>
+          <tr><td>Front Camera (Depth)</td><td>PinholeCamera</td><td>640×360</td><td>PointCloud construction for BEV occupancy grid; policy depth input</td></tr>
+          <tr><td>Goal Camera (RGB)</td><td>PinholeCamera</td><td>640×360</td><td>ImageGoal task: capture reference image at goal pose</td></tr>
+          <tr><td>Metric Camera</td><td>PinholeCamera</td><td>160×90</td><td>Low-res overhead view for BEV tracking</td></tr>
+          <tr><td>Contact Sensor</td><td>ContactSensorCfg</td><td>N/A</td><td>Collision detection; episode termination on contact</td></tr>
+        </tbody>
+      </table>
+
+      <h3>PointCloud Construction</h3>
+      <p>
+        The depth image is back-projected using the camera's intrinsic matrix to form a 3D point cloud via <code>open3d</code>. 
+        This point cloud is then transformed into the world frame and projected onto a 2D occupancy grid for the BEV visualization.
+        The occupancy grid has configurable resolution (default: <code>0.05 m/cell</code>) and range.
+      </p>
+
+      <div class="divider"></div>
+
+      <h2>HTTP API Contract</h2>
+      <p>All navigation servers must implement the same REST API so they can be swapped without changing the evaluation scripts:</p>
+
+      <h3><code>POST /reset</code></h3>
+      <p>Called at the start of each episode. Sends camera intrinsics so the server can initialize depth-dependent models.</p>
+      <pre><code>Request body:
+{
+  "intrinsic_matrix": [[fx, 0, cx], [0, fy, cy], [0, 0, 1]],
+  "image_width": 640,
+  "image_height": 360
+}
+Response: { "status": "ok" }</code></pre>
+
+      <h3><code>POST /plan</code> (PointGoal / ImageGoal)</h3>
+      <p>Main inference endpoint. Called every planning cycle.</p>
+      <pre><code>Request body:
+{
+  "goal": [gx, gy, gz],               // World-frame goal position
+  "image": "&lt;base64-encoded-JPEG&gt;",
+  "depth": "&lt;base64-encoded-float32-bytes&gt;",
+  "camera_pos": [x, y, z],
+  "camera_rot": [w, x, y, z]
+}
+Response:
+{
+  "trajectory": [[x1,y1], [x2,y2], ...],    // Waypoints in world frame
+  "all_trajectories": [...],                  // Optional: all candidate paths
+  "trajectory_values": [v1, v2, ...]          // Optional: per-trajectory scores
+}</code></pre>
+
+      <div class="divider"></div>
+
+      <h2>Evaluation Metrics</h2>
+      <p>Metrics are computed per episode and written to CSV by <code>utils_tasks/basic_utils.py::write_metrics()</code>:</p>
+
+      <table class="doc-table">
+        <thead>
+          <tr><th>Metric</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Success Rate (SR)</td><td>Fraction of episodes where robot reached within threshold of goal</td></tr>
+          <tr><td>Path Length (PL)</td><td>Total distance traveled by the robot base in meters</td></tr>
+          <tr><td>Episode Duration</td><td>Wall-clock time in seconds from start to termination</td></tr>
+          <tr><td>Collision Flag</td><td>1 if episode terminated due to contact sensor trigger</td></tr>
+          <tr><td>SPL</td><td>Success weighted by Path Length (standard navigation metric)</td></tr>
+        </tbody>
+      </table>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-logo">⚙️ NavDP Sandbox</span>
+        <p>An academic research fork exploring Diffusion Policies for omni-directional robotics navigation.</p>
+        <div class="footer-links">
+          <a href="https://github.com/xoTEMPESTox/NavDP" target="_blank">GitHub</a>
+          <a href="https://arxiv.org/abs/2505.08712" target="_blank">arXiv Paper</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Documentation</h4>
+          <a href="overview.html">Project Overview</a>
+          <a href="lekiwi.html">LeKiwi Integration</a>
+          <a href="architecture.html">Architecture</a>
+          <a href="installation.html">Installation</a>
+          <a href="research_tools.html">Research Tools</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Built upon <strong>NavDP</strong> by Wenzhe Cai et al. · Research sandbox by <a href="https://github.com/xoTEMPESTox" target="_blank">xoTEMPESTox</a></p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

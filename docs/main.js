@@ -87,18 +87,44 @@ document.addEventListener('DOMContentLoaded', () => {
       padding: 0.3rem 0.75rem;
       font-size: 0.72rem;
       font-weight: 600;
-      background: rgba(59,130,246,0.12);
-      color: #60a5fa;
-      border: 1px solid rgba(59,130,246,0.25);
+      background: var(--bg-glass);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-card);
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s;
       font-family: inherit;
     }
-    .copy-btn:hover { background: rgba(59,130,246,0.22); }
-    .copy-btn.copied { background: rgba(16,185,129,0.12); color: #34d399; border-color: rgba(16,185,129,0.25); }
+    .copy-btn:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+    .copy-btn.copied { background: rgba(16,185,129,0.12); color: var(--accent-green); border-color: rgba(16,185,129,0.25); }
   `;
   document.head.appendChild(style);
+
+  // --- Theme Toggle ---
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    const icon = themeToggle.querySelector('.theme-toggle-icon');
+    
+    // Function to update icon based on active theme
+    const updateIcon = (theme) => {
+      if (icon) {
+        icon.textContent = theme === 'light' ? '🌙' : '☀️';
+      }
+    };
+
+    // Initialize icon based on current state
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    updateIcon(currentTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const newTheme = activeTheme === 'light' ? 'dark' : 'light';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateIcon(newTheme);
+    });
+  }
 
   // --- Smooth scroll for anchor links ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {

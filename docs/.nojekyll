@@ -1,0 +1,5 @@
+# GitHub Pages configuration for NavDP Sandbox docs
+# This tells GitHub Pages to serve from the /docs folder on the main branch
+
+# No Jekyll processing needed (pure HTML/CSS/JS)
+# This file prevents Jekyll from processing the site

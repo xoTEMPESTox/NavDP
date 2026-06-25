@@ -12,7 +12,7 @@
   <script>
     (function() {
       const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'light' || (!savedTheme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+      if (savedTheme !== 'dark') {
         document.documentElement.setAttribute('data-theme', 'light');
       }
     })();
@@ -42,9 +42,7 @@
         </li>
       </ul>
       <div class="nav-actions">
-        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle light/dark theme">
-          <span class="theme-toggle-icon">☀️</span>
-        </button>
+        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle light/dark theme"><span class="theme-toggle-icon">🌙</span></button>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
           <span></span><span></span><span></span>
         </button>

@@ -56,6 +56,7 @@
   --text-white: #ffffff;
   --text-on-dark: #ffffff;
   --hero-orb-opacity: 0.18;
+  --bg-card-featured: linear-gradient(135deg, #0f1a2e 0%, #160d2e 100%);
 }
 
 [data-theme="light"] {
@@ -98,6 +99,7 @@
   --text-white: #0f172a;
   --text-on-dark: #ffffff;
   --hero-orb-opacity: 0.12;
+  --bg-card-featured: linear-gradient(135deg, #f5f3ff 0%, #eff6ff 100%);
 }
 
 html { scroll-behavior: smooth; }
@@ -111,7 +113,7 @@ body {
 }
 
 a { color: var(--text-link); text-decoration: none; }
-a:hover { color: #93c5fd; }
+a:hover { color: var(--accent-purple); }
 
 /* ==========================================
    NAVIGATION
@@ -148,7 +150,7 @@ a:hover { color: #93c5fd; }
   font-weight: 700;
   color: var(--text-primary);
   text-decoration: none;
-  flex-shrink: 0;
+  flex: 1 0 0%;
 }
 .logo-icon { font-size: 1.4rem; }
 .logo-accent { color: var(--accent-blue); }
@@ -296,7 +298,7 @@ a:hover { color: #93c5fd; }
   font-weight: 900;
   line-height: 1.05;
   letter-spacing: -0.02em;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 0.3rem;
 }
 .hero-title-accent {
@@ -317,7 +319,7 @@ a:hover { color: #93c5fd; }
 }
 .hero-subtitle strong { color: var(--text-primary); }
 .inline-link { color: var(--accent-cyan); border-bottom: 1px solid rgba(6,182,212,0.4); }
-.inline-link:hover { color: #67e8f9; border-color: #67e8f9; }
+.inline-link:hover { color: var(--accent-blue); border-color: var(--accent-blue); }
 
 .hero-actions {
   display: flex;
@@ -349,7 +351,7 @@ a:hover { color: #93c5fd; }
 .stat-value {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--text-primary);
   line-height: 1;
 }
 .stat-label {
@@ -517,7 +519,7 @@ a:hover { color: #93c5fd; }
 .card:hover::before { opacity: 1; }
 .card-featured {
   border-color: rgba(139,92,246,0.3);
-  background: linear-gradient(135deg, #0f1a2e 0%, #160d2e 100%);
+  background: var(--bg-card-featured);
 }
 .card-icon {
   font-size: 2.2rem;
@@ -541,7 +543,8 @@ a:hover { color: #93c5fd; }
 .card-desc code {
   font-family: var(--font-mono);
   font-size: 0.82em;
-  background: rgba(0,0,0,0.3);
+  background: var(--bg-code);
+  border: 1px solid var(--border-subtle);
   padding: 0.15em 0.4em;
   border-radius: 4px;
   color: var(--accent-cyan);
@@ -653,7 +656,7 @@ a:hover { color: #93c5fd; }
 }
 .arch-block {
   padding: 0.5rem 1.1rem;
-  background: rgba(255,255,255,0.04);
+  background: var(--bg-glass);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
@@ -663,7 +666,7 @@ a:hover { color: #93c5fd; }
 .arch-block-accent {
   background: rgba(139,92,246,0.1);
   border-color: rgba(139,92,246,0.25);
-  color: #c4b5fd;
+  color: var(--accent-purple);
 }
 .arch-layer-desc {
   font-size: 0.78rem;
@@ -843,7 +846,8 @@ a:hover { color: #93c5fd; }
 .log-body p code {
   font-family: var(--font-mono);
   font-size: 0.82em;
-  background: rgba(0,0,0,0.3);
+  background: var(--bg-code);
+  border: 1px solid var(--border-subtle);
   padding: 0.12em 0.4em;
   border-radius: 4px;
   color: var(--accent-orange);
@@ -940,7 +944,7 @@ a:hover { color: #93c5fd; }
 .page-hero h1 {
   font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 900;
-  color: #fff;
+  color: var(--text-primary);
   letter-spacing: -0.02em;
   margin-bottom: 1rem;
 }
@@ -1268,7 +1272,8 @@ pre, code, kbd, samp, .file-tree, .code-snippet, .tool-name {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-left: auto;
+  flex: 1 0 0%;
+  justify-content: flex-end;
 }
 .theme-toggle-btn {
   background: var(--bg-glass);
@@ -1285,13 +1290,22 @@ pre, code, kbd, samp, .file-tree, .code-snippet, .tool-name {
   font-size: 1.05rem;
   padding: 0;
 }
+.theme-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+  margin-top: -1px; /* Optical adjustment for emoji baseline alignment */
+}
 .theme-toggle-btn:hover {
   background: var(--bg-card-hover);
   border-color: var(--border-bright);
   transform: scale(1.08);
 }
 @media (max-width: 900px) {
-  .nav-actions {
-    margin-left: 0;
+  .nav-logo, .nav-actions {
+    flex: none;
   }
 }

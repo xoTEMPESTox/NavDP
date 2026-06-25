@@ -314,7 +314,7 @@ while simulation_app.is_running():
                 navigable_pcds[i] = o3d.geometry.PointCloud()
                 explore_areas[i] = 0        
         
-        if episode_num > args_cli.num_episodes:
+        if episode_num >= args_cli.num_episodes:
             break
        
                 

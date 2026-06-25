@@ -7,6 +7,8 @@ __pycache__
 *.pt
 *.mp4
 *.jpg
+*.usd
+*.png
 assets/scenes/Materials/*
 assets/scenes/SkyTexture/*
 assets/scenes/embodiedscan/*

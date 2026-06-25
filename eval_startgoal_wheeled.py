@@ -280,7 +280,7 @@ while simulation_app.is_running():
 
                 episode_num += 1
                 navigator_reset(env_id=i,port=args_cli.port)
-                success_flag = (np.sqrt(np.square(goals[i]).sum())<1.5).astype(np.float32)
+                success_flag = (np.sqrt(np.square(goals[i]).sum())<1.0).astype(np.float32)
                 fps_writer[i].close()
                 evaluation_metrics.append({'success':success_flag,
                                         'spl': np.clip(euclidean[i] / trajectory_length[i],0,1) * success_flag,
@@ -298,7 +298,7 @@ while simulation_app.is_running():
                     action = torch.zeros((args_cli.num_envs, 2), device="cuda:0")
                     obs, rewards, dones, infos = env.step(action)
         
-        if episode_num > args_cli.num_episodes:
+        if episode_num >= args_cli.num_episodes:
             break
        
                 

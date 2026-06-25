@@ -3,7 +3,7 @@ from omni.isaac.lab.app import AppLauncher
 
 parser = argparse.ArgumentParser(description="A script to run a car control simulation")
 parser.add_argument(
-    "--scene_dir", type=str, default="./asset_scenes/cluttered_easy")
+    "--scene_dir", type=str, default="./assets/scenes/cluttered_hard")
 parser.add_argument(
     "--scene_index", type=int, default=8)
 parser.add_argument(
@@ -332,7 +332,7 @@ while simulation_app.is_running():
             if dones[i] == True:
                 episode_num += 1
                 navigator_reset(env_id=i,port=args_cli.port)
-                success_flag = (np.sqrt(np.square(goals[i]).sum())<1.5).astype(np.float32)
+                success_flag = (np.sqrt(np.square(goals[i]).sum())<1.0).astype(np.float32)
                 fps_writer[i].close()
                 evaluation_metrics.append({'success':success_flag,
                                            'spl': np.clip(euclidean[i] / trajectory_length[i],0,1) * success_flag,
@@ -342,7 +342,7 @@ while simulation_app.is_running():
                 fps_writer[i] = imageio.get_writer(save_dir + "fps_%d.mp4"%episode_num, fps=10)
                 trajectory_length[i] = 0.0
         
-        if episode_num > args_cli.num_episodes:
+        if episode_num >= args_cli.num_episodes:
             break
        
                 

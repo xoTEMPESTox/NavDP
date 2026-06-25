@@ -265,7 +265,7 @@ while simulation_app.is_running():
             if dones[i] == True:
                 episode_num += 1
                 navigator_reset(env_id=i,port=args_cli.port)
-                success_flag = (np.sqrt(np.square(goal_poses[i]).sum())<1.5).astype(np.float32)
+                success_flag = (np.sqrt(np.square(goal_poses[i]).sum())<1.0).astype(np.float32)
                 fps_writer[i].close()
                 evaluation_metrics.append({'success':success_flag,
                                            'spl': np.clip(euclidean[i] / trajectory_length[i],0,1) * success_flag,
@@ -275,7 +275,7 @@ while simulation_app.is_running():
                 fps_writer[i] = imageio.get_writer(save_dir + "fps_%d.mp4"%episode_num, fps=10)
                 trajectory_length[i] = 0.0
 
-        if episode_num > args_cli.num_episodes:
+        if episode_num >= args_cli.num_episodes:
             break
        
                 
